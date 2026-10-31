@@ -398,7 +398,7 @@
 
                 <!-- 5.1 DANIŞMANLIK TAM EKRAN SİHİRBAZ / SAYFA GÖRÜNÜMÜ -->
                 <div id="view-consultancy-form" class="space-y-6 hidden">
-                    <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 space-y-6 max-w-5xl mx-auto">
+                    <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 space-y-8 max-w-5xl mx-auto">
                         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                             <div>
                                 <h3 id="consultancyPageTitle" class="font-extrabold text-slate-800 text-xl">Yeni Danışmanlık Hizmet Kaydı</h3>
@@ -410,152 +410,195 @@
                             </button>
                         </div>
 
-                        <form onsubmit="handleConsultancySubmit(event)" class="space-y-6 text-sm">
+                        <form onsubmit="handleConsultancySubmit(event)" class="space-y-8 text-sm">
                             <input type="hidden" id="editConsultancyId">
                             
-                            <!-- Kimlik ve İletişim Bilgileri -->
-                            <div class="space-y-3">
-                                <span class="text-xs font-extrabold text-clean-teal uppercase tracking-wider block"><i class="fa-solid fa-user-shield mr-1.5"></i> Kimlik & İletişim Bilgileri</span>
+                            <!-- BÖLÜM 1: KİMLİK & İLETİŞİM BİLGİLERİ -->
+                            <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4">
+                                <div class="flex items-center space-x-2 pb-2 border-b border-slate-200/60">
+                                    <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-user-shield"></i></div>
+                                    <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">1. Kimlik & İletişim Bilgileri</span>
+                                </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Adı Soyadı *</label>
-                                        <input type="text" id="con-name" required placeholder="Ad Soyad" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none font-semibold">
+                                        <input type="text" id="con-name" required placeholder="Ad Soyad" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none font-semibold">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Telefonu *</label>
-                                        <input type="text" id="con-phone" required placeholder="05XX XXX XXXX" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                                        <input type="text" id="con-phone" required placeholder="05XX XXX XXXX" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Pasaport No.</label>
-                                        <input type="text" id="con-passport" placeholder="AB1234567" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                                        <input type="text" id="con-passport" placeholder="AB1234567" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none">
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Adresi</label>
-                                        <textarea id="con-address" rows="2" placeholder="Açık Adres (İlçe, Mahalle, Sokak...)" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none"></textarea>
+                                        <textarea id="con-address" rows="2" placeholder="Açık Adres (İlçe, Mahalle, Sokak...)" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none"></textarea>
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Özel Notlar</label>
-                                        <textarea id="con-notes" rows="2" placeholder="Danışan hakkında notlar..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none"></textarea>
+                                        <textarea id="con-notes" rows="2" placeholder="Danışan hakkında notlar..." class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none"></textarea>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Demografik ve Tarih Bilgileri -->
-                            <div class="space-y-3 pt-2 border-t border-slate-100">
-                                <span class="text-xs font-extrabold text-clean-teal uppercase tracking-wider block"><i class="fa-solid fa-calendar-days mr-1.5"></i> Demografik Bilgiler & Tarihler</span>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <!-- BÖLÜM 2: DEMOGRAFİK BİLGİLER VE TARİHLER -->
+                            <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4">
+                                <div class="flex items-center space-x-2 pb-2 border-b border-slate-200/60">
+                                    <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-calendar-days"></i></div>
+                                    <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">2. Demografik Bilgiler & Tarihler</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Cinsiyet</label>
-                                        <select id="con-gender" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                                        <select id="con-gender" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs">
                                             <option value="Kadın">Kadın</option>
                                             <option value="Erkek">Erkek</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Yaş</label>
-                                        <input type="number" id="con-age" placeholder="30" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                                        <input type="number" id="con-age" placeholder="30" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Uyruk</label>
-                                        <input type="text" id="con-nationality" placeholder="Özbekistan" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                                        <input type="text" id="con-nationality" placeholder="Özbekistan" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Türkiye'ye Giriş Tarihi</label>
-                                        <input type="date" id="con-entryDate" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                        <input type="text" id="con-entryDate" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">1. Randevu Tarihi</label>
-                                        <input type="date" id="con-appointmentDate" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                        <input type="text" id="con-appointmentDate" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">2. Randevu Tarihi</label>
-                                        <input type="date" id="con-appointmentDate2" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                        <input type="text" id="con-appointmentDate2" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">3. Randevu Tarihi</label>
-                                        <input type="date" id="con-appointmentDate3" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none text-xs font-semibold">
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Oturma İzni (Başlangıç - Bitiş)</label>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <input type="date" id="con-residencyStart" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-semibold">
-                                            <input type="date" id="con-residencyEnd" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-semibold">
-                                        </div>
+                                        <input type="text" id="con-appointmentDate3" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Çalışma İzni (Başlangıç - Bitiş)</label>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <input type="date" id="con-workStart" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-semibold">
-                                            <input type="date" id="con-workEnd" class="w-full px-2.5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-semibold">
+                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">4. Randevu Tarihi</label>
+                                        <input type="text" id="con-appointmentDate4" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Oturma İzni (Başlangıç)</label>
+                                        <input type="text" id="con-residencyStart" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Oturma İzni (Bitiş)</label>
+                                        <input type="text" id="con-residencyEnd" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Çalışma İzni (Başlangıç)</label>
+                                        <input type="text" id="con-workStart" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Çalışma İzni (Bitiş)</label>
+                                        <input type="text" id="con-workEnd" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BÖLÜM 3: TALEP EDİLEN EVRAKLAR (2 Sütun Yan Yana) -->
+                            <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4">
+                                <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-folder-open"></i></div>
+                                        <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">3. Talep Edilen Evraklar</span>
+                                    </div>
+                                    <button type="button" onclick="addConsultancyDocRow()" class="px-3.5 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"><i class="fa-solid fa-plus"></i><span>Evrak Ekle</span></button>
+                                </div>
+                                <div id="con-docs-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <!-- Dynamic items -->
+                                </div>
+                            </div>
+
+                            <!-- BÖLÜM 4: ALINACAK KOMİSYON ÜCRETLERİ & MÜŞTERİ HARCAMA LİSTESİ -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4 flex flex-col h-full">
+                                    <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                                            <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">4. Alınacak Komisyon Ücretleri</span>
+                                        </div>
+                                        <button type="button" onclick="addConsultancyCommissionRow()" class="px-3 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1"><i class="fa-solid fa-plus"></i><span>Ekle</span></button>
+                                    </div>
+                                    <div id="con-commissions-container" class="space-y-2.5 flex-1">
+                                        <!-- Dynamic items -->
+                                    </div>
+                                    <div class="pt-2 border-t border-slate-200/60 flex justify-between items-center text-xs font-bold px-1">
+                                        <span class="text-slate-500 uppercase">Toplam Komisyon:</span>
+                                        <span id="con-commissions-subtotal" class="text-emerald-600 text-sm">0.00 ₺</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4 flex flex-col h-full">
+                                    <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-receipt"></i></div>
+                                            <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">5. Müşteri Harcama Listesi</span>
+                                        </div>
+                                        <button type="button" onclick="addConsultancyExpenseRow()" class="px-3 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1"><i class="fa-solid fa-plus"></i><span>Ekle</span></button>
+                                    </div>
+                                    <div id="con-expenses-container" class="space-y-2.5 flex-1">
+                                        <!-- Dynamic items -->
+                                    </div>
+                                    <div class="pt-2 border-t border-slate-200/60 flex justify-between items-center text-xs font-bold px-1">
+                                        <span class="text-slate-500 uppercase">Toplam Harcama:</span>
+                                        <span id="con-expenses-subtotal" class="text-rose-600 text-sm">0.00 ₺</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BÖLÜM 5: ALINAN AVANS BİLGİSİ & FİNANSAL ÖZET -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4 flex flex-col h-full">
+                                    <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-wallet"></i></div>
+                                            <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">6. Alınan Avans Bilgisi</span>
+                                        </div>
+                                        <button type="button" onclick="addConsultancyAdvanceRow()" class="px-3 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1"><i class="fa-solid fa-plus"></i><span>Ekle</span></button>
+                                    </div>
+                                    <div id="con-advances-container" class="space-y-2.5 flex-1">
+                                        <!-- Dynamic items -->
+                                    </div>
+                                    <div class="pt-2 border-t border-slate-200/60 flex justify-between items-center text-xs font-bold px-1">
+                                        <span class="text-slate-500 uppercase">Toplam Avans:</span>
+                                        <span id="con-advances-subtotal" class="text-clean-teal text-sm">0.00 ₺</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4 flex flex-col h-full">
+                                    <div class="flex items-center space-x-2 pb-2 border-b border-slate-200/60">
+                                        <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-calculator"></i></div>
+                                        <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">7. Finansal Özet</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-3 flex-1 items-center bg-white p-3 rounded-2xl border border-slate-200">
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Hizmet Bedeli</label>
+                                            <input type="number" id="con-serviceFee" placeholder="0.00" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-800 focus:bg-white focus:border-clean-teal">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Harcamalar</label>
+                                            <input type="number" id="con-totalExpenses" placeholder="0.00" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-rose-600 focus:bg-white focus:border-clean-teal">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Komisyon</label>
+                                            <input type="number" id="con-commissionTotal" placeholder="0.00" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-emerald-600 focus:bg-white focus:border-clean-teal">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Alınan Avans Bilgisi & Talep Edilen Evraklar (Yan Yana, Scroll Yok) -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-slate-100">
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs font-extrabold text-clean-teal uppercase tracking-wider"><i class="fa-solid fa-wallet mr-1.5"></i> Alınan Avans Bilgisi</span>
-                                        <button type="button" onclick="addConsultancyAdvanceRow()" class="px-3.5 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"><i class="fa-solid fa-plus"></i><span>Avans Ekle</span></button>
-                                    </div>
-                                    <div id="con-advances-container" class="space-y-2.5 bg-teal-50/30 p-3 rounded-2xl border border-teal-100">
-                                        <!-- Dynamic advance items -->
-                                    </div>
-                                </div>
-
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs font-extrabold text-clean-teal uppercase tracking-wider"><i class="fa-solid fa-folder-open mr-1.5"></i> Talep Edilen Evraklar</span>
-                                        <button type="button" onclick="addConsultancyDocRow()" class="px-3.5 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"><i class="fa-solid fa-plus"></i><span>Evrak Ekle</span></button>
-                                    </div>
-                                    <div id="con-docs-container" class="space-y-2.5 bg-slate-50/60 p-3 rounded-2xl border border-slate-200">
-                                        <!-- Dynamic items -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Alınacak Komisyon Ücretleri & Müşteri Harcama Listesi (Yan Yana, Scroll Yok) -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-slate-100">
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs font-extrabold text-clean-teal uppercase tracking-wider"><i class="fa-solid fa-hand-holding-dollar mr-1.5"></i> Alınacak Komisyon Ücretleri</span>
-                                        <button type="button" onclick="addConsultancyCommissionRow()" class="px-3.5 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"><i class="fa-solid fa-plus"></i><span>Komisyon Ekle</span></button>
-                                    </div>
-                                    <div id="con-commissions-container" class="space-y-2.5 bg-slate-50/60 p-3 rounded-2xl border border-slate-200">
-                                        <!-- Dynamic commission items -->
-                                    </div>
-                                </div>
-
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs font-extrabold text-clean-teal uppercase tracking-wider"><i class="fa-solid fa-receipt mr-1.5"></i> Müşteri Harcama Listesi</span>
-                                        <button type="button" onclick="addConsultancyExpenseRow()" class="px-3.5 py-1.5 bg-teal-50 text-clean-teal hover:bg-teal-100 rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"><i class="fa-solid fa-plus"></i><span>Harcama Ekle</span></button>
-                                    </div>
-                                    <div id="con-expenses-container" class="space-y-2.5 bg-slate-50/60 p-3 rounded-2xl border border-slate-200">
-                                        <!-- Dynamic items -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hizmet Bedeli - Harcamalar - Komisyon Özeti (3'e Bölünmüş Alan) -->
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 bg-slate-50/70 p-4 rounded-2xl">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Hizmet Bedeli (₺)</label>
-                                    <input type="number" id="con-serviceFee" placeholder="0.00" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black text-slate-800">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Harcamalar (₺)</label>
-                                    <input type="number" id="con-totalExpenses" placeholder="0.00" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black text-rose-600">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Komisyon (₺)</label>
-                                    <input type="number" id="con-commissionTotal" placeholder="0.00" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black text-emerald-600">
                                 </div>
                             </div>
 
@@ -1026,6 +1069,7 @@
                 document.getElementById('con-appointmentDate').value = item.appointmentDate || '';
                 document.getElementById('con-appointmentDate2').value = item.appointmentDate2 || '';
                 document.getElementById('con-appointmentDate3').value = item.appointmentDate3 || '';
+                document.getElementById('con-appointmentDate4').value = item.appointmentDate4 || '';
                 document.getElementById('con-residencyStart').value = item.residencyStart || '';
                 document.getElementById('con-residencyEnd').value = item.residencyEnd || '';
                 document.getElementById('con-workStart').value = item.workStart || '';
@@ -1073,10 +1117,11 @@
                 document.getElementById('con-gender').value = 'Kadın';
                 document.getElementById('con-age').value = '';
                 document.getElementById('con-nationality').value = '';
-                document.getElementById('con-entryDate').value = new Date().toISOString().split('T')[0];
-                document.getElementById('con-appointmentDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('con-entryDate').value = '';
+                document.getElementById('con-appointmentDate').value = '';
                 document.getElementById('con-appointmentDate2').value = '';
                 document.getElementById('con-appointmentDate3').value = '';
+                document.getElementById('con-appointmentDate4').value = '';
                 document.getElementById('con-residencyStart').value = '';
                 document.getElementById('con-residencyEnd').value = '';
                 document.getElementById('con-workStart').value = '';
@@ -1422,52 +1467,78 @@
         function addConsultancyExpenseRow(name = '', amount = '') {
             const container = document.getElementById('con-expenses-container');
             const div = document.createElement('div');
-            div.className = 'grid grid-cols-12 gap-3 items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-xs';
+            div.className = 'grid grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs';
             div.innerHTML = `
-                <div class="col-span-8"><input type="text" placeholder="Harcama Adı (Örn: Çeviri, Noter, Sağlık)" value="${name}" class="con-exp-name w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-3"><input type="number" placeholder="Tutarı (₺)" value="${amount}" class="con-exp-amount w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold text-rose-600 focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove()" class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
+                <div class="col-span-8"><input type="text" placeholder="Harcama Adı (Örn: Noter)" value="${name}" class="con-exp-name w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-3"><input type="number" placeholder="Tutarı" value="${amount}" oninput="calculateConsultancySubtotals()" class="con-exp-amount w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold text-rose-600 focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove(); calculateConsultancySubtotals();" class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
             `;
             container.appendChild(div);
+            calculateConsultancySubtotals();
         }
 
         function addConsultancyAdvanceRow(desc = '', date = '', amount = '') {
             const container = document.getElementById('con-advances-container');
             const div = document.createElement('div');
-            div.className = 'grid grid-cols-12 gap-3 items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-xs';
+            div.className = 'grid grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs';
             div.innerHTML = `
-                <div class="col-span-8"><input type="text" placeholder="Örn: Peşinat avansı" value="${desc}" class="con-adv-desc w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-3"><input type="number" placeholder="Tutarı (₺)" value="${amount}" class="con-adv-amount w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-black text-clean-teal focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove()" class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
+                <div class="col-span-8"><input type="text" placeholder="Örn: Peşinat avansı" value="${desc}" class="con-adv-desc w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-3"><input type="number" placeholder="Tutarı" value="${amount}" oninput="calculateConsultancySubtotals()" class="con-adv-amount w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-black text-clean-teal focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove(); calculateConsultancySubtotals();" class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
             `;
             container.appendChild(div);
+            calculateConsultancySubtotals();
         }
 
         function addConsultancyCommissionRow(name = '', amount = '') {
             const container = document.getElementById('con-commissions-container');
             const div = document.createElement('div');
-            div.className = 'grid grid-cols-12 gap-3 items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-xs';
+            div.className = 'grid grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs';
             div.innerHTML = `
-                <div class="col-span-8"><input type="text" placeholder="Açıklama / Not (Örn: Danışmanlık komisyonu)" value="${name}" class="con-comm-name w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-3"><input type="number" placeholder="Tutarı (₺)" value="${amount}" class="con-comm-amount w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold text-clean-teal focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove()" class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
+                <div class="col-span-8"><input type="text" placeholder="Komisyon Notu" value="${name}" class="con-comm-name w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-3"><input type="number" placeholder="Tutarı" value="${amount}" oninput="calculateConsultancySubtotals()" class="con-comm-amount w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold text-clean-teal focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove(); calculateConsultancySubtotals();" class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
             `;
             container.appendChild(div);
+            calculateConsultancySubtotals();
+        }
+
+        function calculateConsultancySubtotals() {
+            let commTotal = 0;
+            document.querySelectorAll('#con-commissions-container .con-comm-amount').forEach(inp => {
+                commTotal += Number(inp.value) || 0;
+            });
+            const commSub = document.getElementById('con-commissions-subtotal');
+            if (commSub) commSub.textContent = commTotal.toLocaleString('tr-TR') + ' ₺';
+
+            let expTotal = 0;
+            document.querySelectorAll('#con-expenses-container .con-exp-amount').forEach(inp => {
+                expTotal += Number(inp.value) || 0;
+            });
+            const expSub = document.getElementById('con-expenses-subtotal');
+            if (expSub) expSub.textContent = expTotal.toLocaleString('tr-TR') + ' ₺';
+
+            let advTotal = 0;
+            document.querySelectorAll('#con-advances-container .con-adv-amount').forEach(inp => {
+                advTotal += Number(inp.value) || 0;
+            });
+            const advSub = document.getElementById('con-advances-subtotal');
+            if (advSub) advSub.textContent = advTotal.toLocaleString('tr-TR') + ' ₺';
         }
 
         function addConsultancyDocRow(name = '', status = 'Geldi') {
             const container = document.getElementById('con-docs-container');
             const div = document.createElement('div');
-            div.className = 'grid grid-cols-12 gap-3 items-center bg-white p-3 rounded-2xl border border-slate-200 shadow-xs';
+            div.className = 'grid grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs';
             div.innerHTML = `
-                <div class="col-span-8"><input type="text" placeholder="Evrak Adı (Örn: Pasaport Fotokopisi, Kira Sözleşmesi)" value="${name}" class="con-doc-name w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
-                <div class="col-span-3">
-                    <select class="con-doc-status w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold ${status === 'Geldi' ? 'text-emerald-700 bg-emerald-50' : 'text-amber-700 bg-amber-50'} focus:outline-none">
+                <div class="col-span-7"><input type="text" placeholder="Evrak Adı (Örn: Pasaport)" value="${name}" class="con-doc-name w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold focus:bg-white focus:border-clean-teal focus:outline-none"></div>
+                <div class="col-span-4">
+                    <select class="con-doc-status w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-bold ${status === 'Geldi' ? 'text-emerald-700 bg-emerald-50' : 'text-amber-700 bg-amber-50'} focus:outline-none">
                         <option value="Geldi" ${status === 'Geldi' ? 'selected' : ''}>Geldi</option>
                         <option value="Gelmedi" ${status === 'Gelmedi' ? 'selected' : ''}>Gelmedi</option>
                     </select>
                 </div>
-                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove()" class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
+                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove()" class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition-all mx-auto"><i class="fa-solid fa-trash text-xs"></i></button></div>
             `;
             container.appendChild(div);
         }
@@ -1520,6 +1591,7 @@
                 appointmentDate: document.getElementById('con-appointmentDate').value,
                 appointmentDate2: document.getElementById('con-appointmentDate2').value,
                 appointmentDate3: document.getElementById('con-appointmentDate3').value,
+                appointmentDate4: document.getElementById('con-appointmentDate4').value,
                 residencyStart: document.getElementById('con-residencyStart').value,
                 residencyEnd: document.getElementById('con-residencyEnd').value,
                 workStart: document.getElementById('con-workStart').value,
