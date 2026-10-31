@@ -1036,9 +1036,24 @@
         }
 
         function openCariDetailsByName(name) {
-            switchTab('cari_karti');
-            document.getElementById('globalSearchInput').value = name;
-            handleGlobalSearch(name);
+            let found = state.cariListesi.find(c => c.name.toLowerCase() === name.toLowerCase());
+            if (found) {
+                editCari(found.id);
+            } else {
+                // Eğer cari kart listesinde yoksa, otomatik yeni cari kartı modalını bu isimle aç
+                document.getElementById('editCariId').value = '';
+                document.getElementById('cari-name').value = name;
+                document.getElementById('cari-unvan').value = 'Müşteri';
+                document.getElementById('cari-phone').value = '';
+                document.getElementById('cari-address').value = '';
+                document.getElementById('cari-invoiceType').value = 'Bireysel';
+                document.getElementById('cari-taxOffice').value = '';
+                document.getElementById('cari-taxNumber').value = '';
+                document.getElementById('cari-balance').value = 0;
+                document.getElementById('cari-balanceType').value = 'Alacak';
+                document.getElementById('cari-notes').value = 'İş kaydından otomatik oluşturuldu';
+                openModal('cariModal');
+            }
         }
 
         function updateJobTopicLabel() {
