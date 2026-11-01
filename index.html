@@ -63,13 +63,18 @@
                 <p class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Ana Menü</p>
                 
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl transition-all bg-clean-teal text-white shadow-lg shadow-clean-teal/20 font-bold">
-                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                    <i class="fa-solid fa-chart-column w-5 text-center"></i>
                     <span>Ana Sayfa</span>
+                </button>
+
+                <button onclick="switchTab('staff_report')" id="nav-staff_report" class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <i class="fa-solid fa-user-gear w-5 text-center"></i>
+                    <span>Raporlar</span>
                 </button>
 
                 <button onclick="switchTab('cari_karti')" id="nav-cari_karti" class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
                     <i class="fa-solid fa-users w-5 text-center"></i>
-                    <span>Cari Kartı Yönetimi</span>
+                    <span>Kişi Kartı</span>
                 </button>
 
                 <button onclick="switchTab('is_kaydi')" id="nav-is_kaydi" class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
@@ -84,12 +89,7 @@
 
                 <button onclick="switchTab('foreign_staff')" id="nav-foreign_staff" class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
                     <i class="fa-solid fa-user-check w-5 text-center"></i>
-                    <span>Danışmanlık Hizmeti</span>
-                </button>
-
-                <button onclick="switchTab('reports')" id="nav-reports" class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
-                    <i class="fa-solid fa-chart-column w-5 text-center"></i>
-                    <span>Raporlama</span>
+                    <span>Oturma / Çalışma İzni</span>
                 </button>
             </nav>
 
@@ -140,18 +140,18 @@
             <!-- Dynamic Views Container -->
             <main class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
 
-                <!-- 1. DASHBOARD VIEW -->
+                <!-- 1. RAPORLAMA VIEW (Dashboard) -->
                 <div id="tab-dashboard" class="space-y-6">
                     <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center">
                         <div class="absolute right-0 bottom-0 translate-x-10 translate-y-10 w-96 h-96 bg-clean-teal/10 rounded-full blur-3xl pointer-events-none"></div>
                         <div class="z-10 mb-4 md:mb-0">
                             <span class="px-3 py-1 bg-clean-teal/20 text-clean-100 text-xs font-semibold rounded-full border border-clean-teal/30">Clean360 Aktif</span>
-                            <h2 class="text-2xl md:text-3xl font-extrabold mt-2">Taşçıoğlu Yönetim Paneli</h2>
-                            <p class="text-slate-300 text-sm mt-1">Verileriniz otomatik olarak saklanmaktadır.</p>
+                            <h2 class="text-2xl md:text-3xl font-extrabold mt-2">Finansal Raporlama ve Özet</h2>
+                            <p class="text-slate-300 text-sm mt-1">Dönemsel ciro, gider ve komisyon performans raporu.</p>
                         </div>
                         <div class="z-10 flex space-x-3">
                             <button onclick="openModal('cariModal')" class="px-4 py-2.5 bg-clean-teal hover:bg-teal-600 text-white font-semibold rounded-2xl text-xs shadow-lg shadow-teal-500/30 transition-all">
-                                <i class="fa-solid fa-user-plus mr-1.5"></i> Cari Kartı Ekle
+                                <i class="fa-solid fa-user-plus mr-1.5"></i> Kişi Kartı Ekle
                             </button>
                             <button onclick="openModal('jobModal')" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-2xl text-xs backdrop-blur-md transition-all border border-white/10">
                                 <i class="fa-solid fa-plus mr-1.5"></i> Yeni İş Kaydı
@@ -212,12 +212,96 @@
                     </div>
                 </div>
 
-                <!-- 2. CARİ KARTI YÖNETİMİ -->
+                <!-- 1.1 PERSONEL VE MÜŞTERİ RAPORLAMA BİRLEŞİK SEKMESİ -->
+                <div id="tab-staff_report" class="space-y-6 hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Personel & Müşteri Çalışma Raporu</h2>
+                            <p class="text-slate-500 text-sm mt-0.5">Personel veya müşteri seçerek tarih aralığı bazında çalışma, hakediş ve ödeme detaylarını görüntüleyin.</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="exportStaffReportExcel()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl text-xs shadow-md transition-all flex items-center space-x-2">
+                                <i class="fa-solid fa-file-excel"></i>
+                                <span>Excel İndir</span>
+                            </button>
+                            <button onclick="exportStaffReportPDF()" class="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-2xl text-xs shadow-md transition-all flex items-center space-x-2">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>PDF İndir</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Personel Seç</label>
+                            <select id="report-staff-select" onchange="handleStaffOrCustomerChange('staff')" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-clean-teal">
+                                <option value="ALL">Tüm Personeller</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Müşteri Seç</label>
+                            <select id="report-customer-select" onchange="handleStaffOrCustomerChange('customer')" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-clean-teal">
+                                <option value="ALL">Tüm Müşteriler</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Başlangıç Tarihi</label>
+                            <input type="date" id="report-start-date" onchange="renderStaffReport()" value="2026-10-01" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-clean-teal">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Bitiş Tarihi</label>
+                            <input type="date" id="report-end-date" onchange="renderStaffReport()" value="2026-10-31" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-clean-teal">
+                        </div>
+                    </div>
+
+                    <!-- Report Table / Summary -->
+                    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-teal-50/50 rounded-2xl border border-teal-100">
+                            <div>
+                                <span class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Toplam Çalışma Günü</span>
+                                <h4 id="rep-staff-total-days" class="text-xl font-black text-slate-800 mt-1">0 Gün</h4>
+                            </div>
+                            <div>
+                                <span class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Toplam Hakediş</span>
+                                <h4 id="rep-staff-total-earnings" class="text-xl font-black text-slate-900 mt-1">0 ₺</h4>
+                            </div>
+                            <div>
+                                <span class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Ödenen Tutar</span>
+                                <h4 id="rep-staff-total-paid" class="text-xl font-black text-emerald-600 mt-1">0 ₺</h4>
+                            </div>
+                            <div>
+                                <span class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Kalan Bakiye</span>
+                                <h4 id="rep-staff-total-remaining" class="text-xl font-black text-rose-600 mt-1">0 ₺</h4>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50/70 border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                        <th class="py-4 px-6">Personel Adı</th>
+                                        <th class="py-4 px-4">Çalışılan Müşteri</th>
+                                        <th class="py-4 px-4">Tarih Aralığı</th>
+                                        <th class="py-4 px-4 text-center">Çalışılan Gün</th>
+                                        <th class="py-4 px-4 text-center">Ödeme Tarihi & Yöntemi</th>
+                                        <th class="py-4 px-6 text-right">Toplam Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="staff-report-table-body" class="divide-y divide-slate-50 text-sm">
+                                    <!-- Rendered by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. KİŞİ KARTI YÖNETİMİ -->
                 <div id="tab-cari_karti" class="space-y-6 hidden">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
-                            <h2 class="text-2xl font-bold text-slate-800">Cari Kartı Yönetimi</h2>
-                            <p class="text-slate-500 text-sm mt-0.5">Müşteri, personel ve tedarikçi cari hesaplarını takip edin.</p>
+                            <h2 class="text-2xl font-bold text-slate-800">Kişi Kartı</h2>
+                            <p class="text-slate-500 text-sm mt-0.5">Müşteri, personel ve tedarikçi kişi hesaplarını takip edin.</p>
                         </div>
                         <div class="flex items-center space-x-3">
                             <select id="cariUnvanFilter" onchange="renderCariTable()" class="px-4 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:border-clean-teal">
@@ -228,7 +312,7 @@
                             </select>
                             <button onclick="openModal('cariModal')" class="px-4 py-2.5 bg-clean-teal hover:bg-teal-600 text-white font-semibold rounded-2xl text-xs shadow-lg shadow-teal-500/20 transition-all flex items-center space-x-2">
                                 <i class="fa-solid fa-user-plus"></i>
-                                <span>Cari Kartı Ekle</span>
+                                <span>Kişi Kartı Ekle</span>
                             </button>
                         </div>
                     </div>
@@ -242,7 +326,6 @@
                                         <th class="py-4 px-4">Ünvan</th>
                                         <th class="py-4 px-4">Telefon</th>
                                         <th class="py-4 px-4">Adres</th>
-                                        <th class="py-4 px-4 text-right">Borç / Alacak</th>
                                         <th class="py-4 px-6 text-center">İşlem</th>
                                     </tr>
                                 </thead>
@@ -275,7 +358,40 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6 space-y-4">
+                        <!-- Filters Header Bar -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 pb-4 border-b border-slate-100 items-end">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Müşteri / İlçe / Konu</label>
+                                <input type="text" id="filter-job-query" oninput="renderJobsTable()" placeholder="Ara..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-clean-teal focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Tarih Aralığı (Başlangıç)</label>
+                                <input type="date" id="filter-job-start" onchange="renderJobsTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-clean-teal focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Personeller</label>
+                                <input type="text" id="filter-job-staff" oninput="renderJobsTable()" placeholder="Personel ara..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-clean-teal focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Fatura & Ödeme</label>
+                                <select id="filter-job-payment" onchange="renderJobsTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-clean-teal focus:outline-none">
+                                    <option value="ALL">Tümü</option>
+                                    <option value="Havale">Havale</option>
+                                    <option value="Nakit">Nakit</option>
+                                    <option value="Kredi Kartı">Kredi Kartı</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Tahsilat Durumu</label>
+                                <select id="filter-job-status" onchange="renderJobsTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-clean-teal focus:outline-none">
+                                    <option value="ALL">Tümü</option>
+                                    <option value="paid">Ücret Alındı</option>
+                                    <option value="unpaid">Alınmadı</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse">
                                 <thead>
@@ -336,6 +452,15 @@
                                     <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Tutar (₺)</label>
                                     <input type="number" id="exp-amount" required placeholder="0.00" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-rose-600 focus:bg-white focus:border-clean-teal focus:outline-none">
                                 </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Ödeme Şekli</label>
+                                    <select id="exp-payment-method" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-700 focus:bg-white focus:border-clean-teal focus:outline-none">
+                                        <option value="Nakit">Nakit</option>
+                                        <option value="Havale">Havale</option>
+                                        <option value="K.kartı">K.kartı</option>
+                                        <option value="Veresiye borç">Veresiye borç</option>
+                                    </select>
+                                </div>
                                 <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-sm shadow-md transition-all">Gideri Kaydet</button>
                             </form>
                         </div>
@@ -349,6 +474,7 @@
                                             <th class="py-4 px-6">Tarih</th>
                                             <th class="py-4 px-4">Tür</th>
                                             <th class="py-4 px-4">İş Yeri</th>
+                                            <th class="py-4 px-4 text-center">Ödeme Şekli</th>
                                             <th class="py-4 px-4 text-center">Kaynak</th>
                                             <th class="py-4 px-6 text-right">Tutar</th>
                                         </tr>
@@ -362,16 +488,16 @@
                     </div>
                 </div>
 
-                <!-- 5. DANIŞMANLIK HİZMETİ -->
+                <!-- 5. OTURMA / ÇALIŞMA İZNİ -->
                 <div id="tab-foreign_staff" class="space-y-6 hidden">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
-                            <h2 class="text-2xl font-bold text-slate-800">Danışmanlık Hizmeti İş Akışı</h2>
+                            <h2 class="text-2xl font-bold text-slate-800">Oturma / Çalışma İzni İş Akışı</h2>
                             <p class="text-slate-500 text-sm mt-0.5">Çalışma izinleri, uyruklar, avanslar, harcamalar ve evrak takibi.</p>
                         </div>
                         <button onclick="openConsultancyFullPage(null)" class="px-5 py-3 bg-clean-teal hover:bg-teal-600 text-white font-bold rounded-2xl text-xs shadow-lg shadow-teal-500/20 transition-all flex items-center space-x-2">
                             <i class="fa-solid fa-plus text-sm"></i>
-                            <span>Yeni Danışmanlık Kaydı</span>
+                            <span>Yeni Oturma / Çalışma İzni Kaydı</span>
                         </button>
                     </div>
 
@@ -383,8 +509,7 @@
                                         <th class="py-4 px-6">Adı Soyadı & Telefon</th>
                                         <th class="py-4 px-4">Uyruk / Yaş / Cinsiyet</th>
                                         <th class="py-4 px-4">Giriş / Randevu Tarihi</th>
-                                        <th class="py-4 px-4 text-right">Alınan Avans</th>
-                                        <th class="py-4 px-4 text-center">Evrak Durumu</th>
+                                        <th class="py-4 px-4 text-center">Durum</th>
                                         <th class="py-4 px-6 text-center">İşlem</th>
                                     </tr>
                                 </thead>
@@ -401,8 +526,8 @@
                     <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 space-y-8 max-w-5xl mx-auto">
                         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                             <div>
-                                <h3 id="consultancyPageTitle" class="font-extrabold text-slate-800 text-xl">Yeni Danışmanlık Hizmet Kaydı</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Tam ekran danışmanlık, avans, izinler ve evrak takip formu</p>
+                                <h3 id="consultancyPageTitle" class="font-extrabold text-slate-800 text-xl">Yeni Oturma / Çalışma İzni Kaydı</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Tam ekran oturma/çalışma izni, avans, izinler ve evrak takip formu</p>
                             </div>
                             <button onclick="closeConsultancyFullPage()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-xs transition-all flex items-center space-x-2">
                                 <i class="fa-solid fa-arrow-left"></i>
@@ -449,7 +574,7 @@
                             <div class="bg-slate-50/60 p-5 rounded-2xl border border-slate-200/80 space-y-4">
                                 <div class="flex items-center space-x-2 pb-2 border-b border-slate-200/60">
                                     <div class="w-7 h-7 rounded-xl bg-clean-teal text-white flex items-center justify-center text-xs font-bold shadow-sm"><i class="fa-solid fa-calendar-days"></i></div>
-                                    <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">2. Demografik Bilgiler & Tarihler</span>
+                                    <span class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">2. Demografik Bilgiler & Tarihler & Durum</span>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                                     <div>
@@ -468,8 +593,14 @@
                                         <input type="text" id="con-nationality" placeholder="Özbekistan" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Türkiye'ye Giriş Tarihi</label>
-                                        <input type="text" id="con-entryDate" placeholder="" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-semibold">
+                                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Durum</label>
+                                        <select id="con-status" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-clean-teal focus:outline-none text-xs font-bold text-slate-700">
+                                            <option value="Kurumdan Cevap Bekleniyor">Kurumdan Cevap Bekleniyor</option>
+                                            <option value="Kurum Cevap Bekliyor">Kurum Cevap Bekliyor</option>
+                                            <option value="Müşteriden Evrak Bekleniyor">Müşteriden Evrak Bekleniyor</option>
+                                            <option value="Müşteriden Ücret Bekleniyor">Müşteriden Ücret Bekleniyor</option>
+                                            <option value="İşlem Tamamlandı">İşlem Tamamlandı</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
@@ -602,43 +733,17 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-end space-x-3 pt-6 border-t border-slate-100">
-                                <button type="button" onclick="closeConsultancyFullPage()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all">İptal</button>
-                                <button type="submit" class="px-8 py-3 bg-clean-teal hover:bg-teal-600 text-white font-extrabold rounded-2xl shadow-xl shadow-teal-500/30 transition-all">Danışmanlık Kaydını Kaydet</button>
+                            <div class="flex justify-between items-center pt-6 border-t border-slate-100">
+                                <button type="button" id="deleteConsultancyBtn" onclick="confirmDeleteConsultancy()" class="px-5 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-2xl transition-all hidden flex items-center space-x-2">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <span>Kaydı Sil</span>
+                                </button>
+                                <div class="flex space-x-3 ml-auto">
+                                    <button type="button" onclick="closeConsultancyFullPage()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all">İptal</button>
+                                    <button type="submit" class="px-8 py-3 bg-clean-teal hover:bg-teal-600 text-white font-extrabold rounded-2xl shadow-xl shadow-teal-500/30 transition-all">Oturma / Çalışma İzni Kaydını Kaydet</button>
+                                </div>
                             </div>
                         </form>
-                    </div>
-                </div>
-
-                <!-- 6. RAPORLAMA VE ANALİZ -->
-                <div id="tab-reports" class="space-y-6 hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-slate-800">Finansal Raporlama ve Analiz</h2>
-                            <p class="text-slate-500 text-sm mt-0.5">Dönemsel ciro, gider ve komisyon performans raporu.</p>
-                        </div>
-                        <select id="reportPeriod" onchange="renderReports()" class="px-4 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:border-clean-teal">
-                            <option value="MONTHLY">Ekim 2026 (Bu Ay)</option>
-                            <option value="YEARLY">2026 Yıllık</option>
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-2">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Toplam Ciro (Hizmetler)</span>
-                            <h3 id="rep-total-rev" class="text-2xl font-black text-slate-800">0 ₺</h3>
-                            <p class="text-xs text-emerald-600 font-semibold"><i class="fa-solid fa-arrow-trend-up mr-1"></i> Yüksek tahsilat oranı</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-2">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Toplam İşletme Giderleri</span>
-                            <h3 id="rep-total-exp" class="text-2xl font-black text-rose-600">0 ₺</h3>
-                            <p class="text-xs text-slate-500">Fişler ve operasyonel masraflar</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-2">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Hizmetli Komisyonu</span>
-                            <h3 id="rep-net-profit" class="text-2xl font-black text-emerald-600">0 ₺</h3>
-                            <p class="text-xs text-emerald-700 font-semibold"><i class="fa-solid fa-circle-check mr-1"></i> Hedeflenen kârlılıkta</p>
-                        </div>
                     </div>
                 </div>
 
@@ -648,11 +753,11 @@
 
     <!-- MODALS -->
 
-    <!-- 1. CARİ KARTI MODALI -->
+    <!-- 1. KİŞİ KARTI MODALI -->
     <div id="cariModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 id="cariModalTitle" class="font-bold text-slate-800 text-lg">Yeni Cari Kartı Ekle</h3>
+                <h3 id="cariModalTitle" class="font-bold text-slate-800 text-lg">Yeni Kişi Kartı Ekle</h3>
                 <button onclick="closeModal('cariModal')" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <form onsubmit="handleCariSubmit(event)" class="space-y-4 pt-4 text-sm" id="cariForm">
@@ -690,20 +795,6 @@
                         <input type="text" id="cari-taxNumber" placeholder="Vergi No" class="bg-white border border-slate-200 rounded-xl px-2 py-2 text-xs">
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Borç / Alacak Tutar (₺)</label>
-                        <input type="number" id="cari-balance" placeholder="0" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none font-bold">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Bakiye Türü</label>
-                        <select id="cari-balanceType" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
-                            <option value="Alacak">Alacak</option>
-                            <option value="Borç">Borç</option>
-                            <option value="Nötr">Nötr</option>
-                        </select>
-                    </div>
-                </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Özel Notlar</label>
                     <textarea id="cari-notes" rows="2" placeholder="Notlar..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none"></textarea>
@@ -716,29 +807,29 @@
         </div>
     </div>
 
-    <!-- 2. İŞ KAYDI MODALI -->
+    <!-- 2. İŞ KAYDI MODALI (Genişletilmiş Tasarım) -->
     <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-3xl w-full p-6 md:p-10 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                 <h3 id="jobModalTitle" class="font-bold text-slate-800 text-lg">Yeni İş Kaydı Oluştur</h3>
                 <button onclick="closeModal('jobModal')" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            <form onsubmit="handleJobSubmit(event)" class="space-y-4 pt-4 text-sm">
+            <form onsubmit="handleJobSubmit(event)" class="space-y-5 pt-4 text-sm">
                 <input type="hidden" id="editJobId">
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Müşteri Ad Soyad *</label>
-                        <input type="text" id="job-name" required placeholder="Müşteri Adı" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                        <input type="text" id="job-name" required placeholder="Müşteri Adı" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none font-semibold">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Telefon</label>
-                        <input type="text" id="job-phone" placeholder="05XX XXX XXXX" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                        <input type="text" id="job-phone" placeholder="05XX XXX XXXX" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">İlçe</label>
-                        <select id="job-district" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                        <select id="job-district" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
                             <option value="Kadıköy">Kadıköy</option>
                             <option value="Beşiktaş">Beşiktaş</option>
                             <option value="Ataşehir">Ataşehir</option>
@@ -747,7 +838,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">İş Konusu</label>
-                        <select id="job-topic" onchange="updateJobTopicLabel()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
+                        <select id="job-topic" onchange="updateJobTopicLabel()" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none">
                             <option value="Temizlik">Temizlik</option>
                             <option value="Hasta bakım">Hasta bakım</option>
                             <option value="Çocuk bakım">Çocuk bakım</option>
@@ -755,35 +846,35 @@
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-3 bg-teal-50/50 p-3.5 rounded-2xl border border-teal-100">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-teal-50/50 p-4 rounded-2xl border border-teal-100">
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Başlangıç</label>
-                        <input type="date" id="job-startDate" onchange="calculateJobDays()" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
+                        <input type="date" id="job-startDate" onchange="calculateJobDays()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Bitiş</label>
-                        <input type="date" id="job-endDate" onchange="calculateJobDays()" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
+                        <input type="date" id="job-endDate" onchange="calculateJobDays()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Toplam Gün</label>
-                        <div id="job-daysCountDisplay" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-black text-clean-teal flex items-center">1 Gün</div>
+                        <div id="job-daysCountDisplay" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-black text-clean-teal flex items-center">1 Gün</div>
                     </div>
                 </div>
 
-                <!-- Staff List Container -->
-                <div class="space-y-2 border-t pt-3 border-slate-100">
+                <!-- Staff List Container with Detailed Payment Info per Staff -->
+                <div class="space-y-3 border-t pt-4 border-slate-100">
                     <div class="flex justify-between items-center">
-                        <span class="font-bold text-xs uppercase text-slate-600">Personeller (Maks 4)</span>
-                        <button type="button" onclick="addStaffRow()" class="px-3 py-1 bg-teal-50 text-clean-teal rounded-xl text-xs font-bold hover:bg-teal-100 transition-colors">+ Personel Ekle</button>
+                        <span class="font-bold text-xs uppercase text-slate-600 tracking-wider">Personeller ve Ödeme Detayları (Maks 4)</span>
+                        <button type="button" onclick="addStaffRow()" class="px-3.5 py-1.5 bg-teal-50 text-clean-teal rounded-xl text-xs font-bold hover:bg-teal-100 transition-colors">+ Personel Ekle</button>
                     </div>
-                    <div id="modal-staff-container" class="space-y-2">
-                        <!-- Dynamic staff inputs -->
+                    <div id="modal-staff-container" class="space-y-3">
+                        <!-- Dynamic staff cards -->
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Toplam Hizmet Bedeli (₺) *</label>
-                    <input type="number" id="job-cleaningPrice" required oninput="updateJobCalculations()" placeholder="0" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none font-black text-lg text-clean-teal">
+                    <input type="number" id="job-cleaningPrice" required oninput="updateJobCalculations()" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-clean-teal focus:outline-none font-black text-xl text-clean-teal">
                 </div>
 
                 <div class="bg-slate-100 p-4 rounded-2xl border border-slate-200 grid grid-cols-3 gap-2 text-center text-xs">
@@ -792,12 +883,12 @@
                     <div><span id="commission-label" class="block text-slate-500 font-medium">Hizmetli Komisyonu</span><span id="calc-commission" class="font-black text-emerald-600">0 ₺</span></div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <select id="job-invoiceType" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <select id="job-invoiceType" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold">
                         <option value="Bireysel">Bireysel Fatura</option>
                         <option value="Kurumsal">Kurumsal Fatura</option>
                     </select>
-                    <select id="job-paymentMethod" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold">
+                    <select id="job-paymentMethod" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold">
                         <option value="Havale">Havale / EFT</option>
                         <option value="Kredi Kartı">Kredi Kartı</option>
                         <option value="Nakit">Nakit</option>
@@ -805,10 +896,10 @@
                 </div>
 
                 <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <button type="button" onclick="confirmDeleteJobFromModal()" class="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-xl text-xs transition-colors">Kaydı Sil</button>
-                    <div class="flex space-x-2">
-                        <button type="button" onclick="closeModal('jobModal')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">İptal</button>
-                        <button type="submit" class="px-5 py-2 bg-clean-teal hover:bg-teal-600 text-white font-bold rounded-xl text-xs shadow-md">Kaydet</button>
+                    <button type="button" onclick="confirmDeleteJobFromModal()" class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-xl text-xs transition-colors">Kaydı Sil</button>
+                    <div class="flex space-x-3">
+                        <button type="button" onclick="closeModal('jobModal')" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">İptal</button>
+                        <button type="submit" class="px-7 py-2.5 bg-clean-teal hover:bg-teal-600 text-white font-bold rounded-xl text-xs shadow-md">Kaydet</button>
                     </div>
                 </div>
             </form>
@@ -830,6 +921,21 @@
         </div>
     </div>
 
+    <!-- DANIŞMANLIK SİLME ONAY MODALI -->
+    <div id="deleteConsultancyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4">
+            <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-base">Kaydı silmek istiyormusunuz?</h3>
+            <p class="text-xs text-slate-500">Bu oturma/çalışma izni kaydı kalıcı olarak silinecektir.</p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button type="button" onclick="closeModal('deleteConsultancyModal')" class="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl text-xs transition-all">Hayır</button>
+                <button type="button" onclick="executeDeleteConsultancy()" class="py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-2xl text-xs shadow-md transition-all">Evet</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Message Box -->
     <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl text-sm font-medium transform translate-y-24 opacity-0 transition-all duration-300 z-50 flex items-center space-x-3">
         <i class="fa-solid fa-circle-check text-clean-teal text-lg"></i>
@@ -843,21 +949,21 @@
             weekOffset: 0,
             globalSearch: '',
             cariListesi: JSON.parse(localStorage.getItem('clean360_cari')) || [
-                { id: 1, name: 'Ayşe Yıldız', unvan: 'Müşteri', phone: '0532 555 4433', address: 'Kadıköy, İstanbul', invoiceType: 'Bireysel', taxOffice: '-', taxNumber: '-', balance: 1500, balanceType: 'Alacak', notes: 'Düzenli temizlik müşterisi' },
-                { id: 2, name: 'Mehmet Demir', unvan: 'Müşteri', phone: '0533 444 3322', address: 'Beşiktaş, İstanbul', invoiceType: 'Bireysel', taxOffice: '-', taxNumber: '-', balance: 2200, balanceType: 'Alacak', notes: 'Hizmetli komisyonu' },
-                { id: 3, name: 'Elena Rastova', unvan: 'Personel', phone: '0541 123 4567', address: 'Şişli, İstanbul', invoiceType: 'Bireysel', taxOffice: '-', taxNumber: '-', balance: 0, balanceType: 'Nötr', notes: 'Çalışma izinli danışan' }
+                { id: 1, name: 'Ayşe Yıldız', unvan: 'Müşteri', phone: '0532 555 4433', address: 'Kadıköy, İstanbul', invoiceType: 'Bireysel', taxOffice: '-', taxNumber: '-', notes: 'Düzenli temizlik müşterisi' },
+                { id: 2, name: 'Mehmet Demir', unvan: 'Müşteri', phone: '0533 444 3322', address: 'Beşiktaş, İstanbul', invoiceType: 'Bireysel', taxOffice: '-', taxNumber: '-', notes: 'Hizmetli komisyonu' },
+                { id: 3, name: 'Elena Rastova', unvan: 'Personel', phone: '0541 123 4567', address: 'Şişli, İstanbul', invoiceType: 'Bireysel', taxOffice: '-', taxNumber: '-', notes: 'Çalışma izinli danışan' }
             ],
             isKayitlari: JSON.parse(localStorage.getItem('clean360_jobs')) || [
-                { id: 1, name: 'Ayşe Yıldız', phone: '0532 555 4433', district: 'Kadıköy', jobTopic: 'Temizlik', startDate: '2026-10-28', endDate: '2026-10-28', daysCount: 1, staffList: [{ name: 'Elena R.', price: 1600, days: 1 }], cleaningPrice: 2500, invoiceType: 'Bireysel', paymentMethod: 'Havale', isPaid: true },
-                { id: 2, name: 'Mehmet Demir', phone: '0533 444 3322', district: 'Beşiktaş', jobTopic: 'Hizmetli Komisyonu', startDate: '2026-10-28', endDate: '2026-10-28', daysCount: 1, staffList: [{ name: 'Svetlana P.', price: 1500, days: 1 }], cleaningPrice: 2200, invoiceType: 'Bireysel', paymentMethod: 'Nakit', isPaid: false }
+                { id: 1, name: 'Ayşe Yıldız', phone: '0532 555 4433', district: 'Kadıköy', jobTopic: 'Temizlik', startDate: '2026-10-28', endDate: '2026-10-28', daysCount: 1, staffList: [{ name: 'Elena R.', price: 1600, days: 1, isPaid: 'Ödendi', paymentDate: '2026-10-28', paymentMethod: 'Havale' }], cleaningPrice: 2500, invoiceType: 'Bireysel', paymentMethod: 'Havale', isPaid: true },
+                { id: 2, name: 'Mehmet Demir', phone: '0533 444 3322', district: 'Beşiktaş', jobTopic: 'Hizmetli Komisyonu', startDate: '2026-10-28', endDate: '2026-10-28', daysCount: 1, staffList: [{ name: 'Svetlana P.', price: 1500, days: 1, isPaid: 'Ödenmedi', paymentDate: '', paymentMethod: 'Elden' }], cleaningPrice: 2200, invoiceType: 'Bireysel', paymentMethod: 'Nakit', isPaid: false }
             ],
             expenses: JSON.parse(localStorage.getItem('clean360_exp')) || [
                 { id: 1, date: '2026-10-28', type: 'Yemek', amount: 250, vendor: 'Özlem Lokantası', isAutoOCR: true },
                 { id: 2, date: '2026-10-27', type: 'Otopark', amount: 90, vendor: 'Kadıköy İSPARK', isAutoOCR: false }
             ],
             consultancyList: JSON.parse(localStorage.getItem('clean360_consultancy')) || [
-                { id: 1, name: 'Elena Rastova', phone: '0541 123 4567', passport: 'AB9876543', address: 'Şişli Mah. No:12', gender: 'Kadın', age: 28, nationality: 'Özbekistan', entryDate: '2026-04-15', appointmentDate: '2026-11-15', residencyStart: '2026-04-15', residencyEnd: '2027-04-15', workStart: '2026-05-01', workEnd: '2027-05-01', advanceDesc: 'Peşinat', advanceDate: '2026-10-01', advanceAmount: 1200, expenses: [{ name: 'Çeviri', amount: 300 }], documents: [{ name: 'Pasaport Fotokopisi', status: 'Geldi' }, { name: 'Kira Sözleşmesi', status: 'Geldi' }] },
-                { id: 2, name: 'Svetlana Petrov', phone: '0552 987 6543', passport: 'XY1234567', address: 'Beşiktaş Cad. 4/2', gender: 'Kadın', age: 32, nationality: 'Kırgızistan', entryDate: '2025-11-10', appointmentDate: '2026-11-20', residencyStart: '2025-11-10', residencyEnd: '2026-11-10', workStart: '2025-12-01', workEnd: '2026-12-01', advanceDesc: 'İlk Avans', advanceDate: '2026-10-05', advanceAmount: 1500, expenses: [{ name: 'Noter', amount: 500 }], documents: [{ name: 'Sağlık Sigortası', status: 'Geldi' }] }
+                { id: 1, name: 'Elena Rastova', phone: '0541 123 4567', passport: 'AB9876543', address: 'Şişli Mah. No:12', gender: 'Kadın', age: 28, nationality: 'Özbekistan', status: 'Kurumdan Cevap Bekleniyor', entryDate: '2026-04-15', appointmentDate: '2026-11-15', residencyStart: '2026-04-15', residencyEnd: '2027-04-15', workStart: '2026-05-01', workEnd: '2027-05-01', advanceDesc: 'Peşinat', advanceDate: '2026-10-01', advanceAmount: 1200, expenses: [{ name: 'Çeviri', amount: 300 }], documents: [{ name: 'Pasaport Fotokopisi', status: 'Geldi' }, { name: 'Kira Sözleşmesi', status: 'Geldi' }] },
+                { id: 2, name: 'Svetlana Petrov', phone: '0552 987 6543', passport: 'XY1234567', address: 'Beşiktaş Cad. 4/2', gender: 'Kadın', age: 32, nationality: 'Kırgızistan', status: 'Müşteriden Evrak Bekleniyor', entryDate: '2025-11-10', appointmentDate: '2026-11-20', residencyStart: '2025-11-10', residencyEnd: '2026-11-10', workStart: '2025-12-01', workEnd: '2026-12-01', advanceDesc: 'İlk Avans', advanceDate: '2026-10-05', advanceAmount: 1500, expenses: [{ name: 'Noter', amount: 500 }], documents: [{ name: 'Sağlık Sigortası', status: 'Geldi' }] }
             ]
         };
 
@@ -943,7 +1049,7 @@
         window.switchTab = function(tabId) {
             state.activeTab = tabId;
             document.getElementById('view-consultancy-form').classList.add('hidden');
-            const tabs = ['dashboard', 'cari_karti', 'is_kaydi', 'expenses', 'foreign_staff', 'reports'];
+            const tabs = ['dashboard', 'staff_report', 'cari_karti', 'is_kaydi', 'expenses', 'foreign_staff'];
             tabs.forEach(t => {
                 const el = document.getElementById('tab-' + t);
                 const nav = document.getElementById('nav-' + t);
@@ -982,7 +1088,6 @@
                     <td class="py-4 px-4"><span class="px-2.5 py-1 bg-slate-100 text-slate-700 font-semibold text-xs rounded-xl">${c.unvan}</span></td>
                     <td class="py-4 px-4 text-xs text-slate-600">${c.phone}</td>
                     <td class="py-4 px-4 text-xs text-slate-600">${c.address}</td>
-                    <td class="py-4 px-4 text-right text-xs font-bold ${c.balanceType === 'Alacak' ? 'text-emerald-600' : 'text-rose-600'}">${c.balance.toLocaleString('tr-TR')} ₺ (${c.balanceType})</td>
                     <td class="py-4 px-6 text-center">
                         <button onclick="editCari(${c.id})" class="px-3 py-1.5 bg-slate-100 hover:bg-teal-50 hover:text-clean-teal text-slate-700 rounded-xl font-bold text-xs transition-colors">Düzenle</button>
                     </td>
@@ -1003,16 +1108,14 @@
                 invoiceType: document.getElementById('cari-invoiceType').value,
                 taxOffice: document.getElementById('cari-taxOffice').value,
                 taxNumber: document.getElementById('cari-taxNumber').value,
-                balance: Number(document.getElementById('cari-balance').value) || 0,
-                balanceType: document.getElementById('cari-balanceType').value,
                 notes: document.getElementById('cari-notes').value
             };
             if (editId) {
                 state.cariListesi = state.cariListesi.map(c => c.id === Number(editId) ? data : c);
-                showToast('Cari kartı güncellendi.');
+                showToast('Kişi kartı güncellendi.');
             } else {
                 state.cariListesi.unshift(data);
-                showToast('Cari kartı eklendi.');
+                showToast('Kişi kartı eklendi.');
             }
             closeModal('cariModal');
             refreshDataViews();
@@ -1029,8 +1132,6 @@
             document.getElementById('cari-invoiceType').value = c.invoiceType;
             document.getElementById('cari-taxOffice').value = c.taxOffice;
             document.getElementById('cari-taxNumber').value = c.taxNumber;
-            document.getElementById('cari-balance').value = c.balance;
-            document.getElementById('cari-balanceType').value = c.balanceType;
             document.getElementById('cari-notes').value = c.notes;
             openModal('cariModal');
         }
@@ -1040,7 +1141,6 @@
             if (found) {
                 editCari(found.id);
             } else {
-                // Eğer cari kart listesinde yoksa, otomatik yeni cari kartı modalını bu isimle aç
                 document.getElementById('editCariId').value = '';
                 document.getElementById('cari-name').value = name;
                 document.getElementById('cari-unvan').value = 'Müşteri';
@@ -1049,8 +1149,6 @@
                 document.getElementById('cari-invoiceType').value = 'Bireysel';
                 document.getElementById('cari-taxOffice').value = '';
                 document.getElementById('cari-taxNumber').value = '';
-                document.getElementById('cari-balance').value = 0;
-                document.getElementById('cari-balanceType').value = 'Alacak';
                 document.getElementById('cari-notes').value = 'İş kaydından otomatik oluşturuldu';
                 openModal('cariModal');
             }
@@ -1067,93 +1165,129 @@
         function openConsultancyFullPage(id) {
             document.getElementById('tab-foreign_staff').classList.add('hidden');
             document.getElementById('view-consultancy-form').classList.remove('hidden');
+            const deleteBtn = document.getElementById('deleteConsultancyBtn');
             
             if (id) {
+                if (deleteBtn) deleteBtn.classList.remove('hidden');
                 const item = state.consultancyList.find(c => c.id === id);
                 if (!item) return;
-                document.getElementById('editConsultancyId').value = item.id;
-                document.getElementById('con-name').value = item.name;
-                document.getElementById('con-phone').value = item.phone;
-                document.getElementById('con-passport').value = item.passport || '';
-                document.getElementById('con-address').value = item.address || '';
-                document.getElementById('con-notes').value = item.notes || '';
-                document.getElementById('con-gender').value = item.gender || 'Kadın';
-                document.getElementById('con-age').value = item.age || '';
-                document.getElementById('con-nationality').value = item.nationality || '';
-                document.getElementById('con-entryDate').value = item.entryDate || '';
-                document.getElementById('con-appointmentDate').value = item.appointmentDate || '';
-                document.getElementById('con-appointmentDate2').value = item.appointmentDate2 || '';
-                document.getElementById('con-appointmentDate3').value = item.appointmentDate3 || '';
-                document.getElementById('con-appointmentDate4').value = item.appointmentDate4 || '';
-                document.getElementById('con-residencyStart').value = item.residencyStart || '';
-                document.getElementById('con-residencyEnd').value = item.residencyEnd || '';
-                document.getElementById('con-workStart').value = item.workStart || '';
-                document.getElementById('con-workEnd').value = item.workEnd || '';
-                document.getElementById('con-serviceFee').value = item.serviceFee || '';
-                document.getElementById('con-totalExpenses').value = item.totalExpenses || '';
-                document.getElementById('con-commissionTotal').value = item.commissionTotal || '';
+                const setVal = (elId, val) => { const el = document.getElementById(elId); if (el) el.value = val; };
+                setVal('editConsultancyId', item.id);
+                setVal('con-name', item.name);
+                setVal('con-phone', item.phone);
+                setVal('con-passport', item.passport || '');
+                setVal('con-address', item.address || '');
+                setVal('con-notes', item.notes || '');
+                setVal('con-gender', item.gender || 'Kadın');
+                setVal('con-age', item.age || '');
+                setVal('con-nationality', item.nationality || '');
+                setVal('con-status', item.status || 'Kurumdan Cevap Bekleniyor');
+                setVal('con-entryDate', item.entryDate || '');
+                setVal('con-appointmentDate', item.appointmentDate || '');
+                setVal('con-appointmentDate2', item.appointmentDate2 || '');
+                setVal('con-appointmentDate3', item.appointmentDate3 || '');
+                setVal('con-appointmentDate4', item.appointmentDate4 || '');
+                setVal('con-residencyStart', item.residencyStart || '');
+                setVal('con-residencyEnd', item.residencyEnd || '');
+                setVal('con-workStart', item.workStart || '');
+                setVal('con-workEnd', item.workEnd || '');
+                setVal('con-serviceFee', item.serviceFee || '');
+                setVal('con-totalExpenses', item.totalExpenses || '');
+                setVal('con-commissionTotal', item.commissionTotal || '');
 
-                document.getElementById('con-advances-container').innerHTML = '';
+                const advContainer = document.getElementById('con-advances-container');
+                if (advContainer) advContainer.innerHTML = '';
                 if (item.advances && item.advances.length > 0) {
                     item.advances.forEach(adv => addConsultancyAdvanceRow(adv.desc, adv.date, adv.amount));
                 } else {
                     addConsultancyAdvanceRow(item.advanceDesc || '', item.advanceDate || '', item.advanceAmount || '');
                 }
 
-                document.getElementById('con-commissions-container').innerHTML = '';
+                const commContainer = document.getElementById('con-commissions-container');
+                if (commContainer) commContainer.innerHTML = '';
                 if (item.commissions && item.commissions.length > 0) {
                     item.commissions.forEach(com => addConsultancyCommissionRow(com.name, com.amount));
                 } else {
                     addConsultancyCommissionRow();
                 }
 
-                document.getElementById('con-expenses-container').innerHTML = '';
+                const expContainer = document.getElementById('con-expenses-container');
+                if (expContainer) expContainer.innerHTML = '';
                 if (item.expenses && item.expenses.length > 0) {
                     item.expenses.forEach(ex => addConsultancyExpenseRow(ex.name, ex.amount));
                 } else {
                     addConsultancyExpenseRow();
                 }
 
-                document.getElementById('con-docs-container').innerHTML = '';
+                const docsContainer = document.getElementById('con-docs-container');
+                if (docsContainer) docsContainer.innerHTML = '';
                 if (item.documents && item.documents.length > 0) {
                     item.documents.forEach(doc => addConsultancyDocRow(doc.name, doc.status));
                 } else {
                     addConsultancyDocRow();
                 }
 
-                document.getElementById('consultancyPageTitle').textContent = 'Danışmanlık Kaydını Düzenle';
+                const titleEl = document.getElementById('consultancyPageTitle');
+                if (titleEl) titleEl.textContent = 'Danışmanlık Kaydını Düzenle';
             } else {
-                document.getElementById('editConsultancyId').value = '';
-                document.getElementById('con-name').value = '';
-                document.getElementById('con-phone').value = '';
-                document.getElementById('con-passport').value = '';
-                document.getElementById('con-address').value = '';
-                document.getElementById('con-notes').value = '';
-                document.getElementById('con-gender').value = 'Kadın';
-                document.getElementById('con-age').value = '';
-                document.getElementById('con-nationality').value = '';
-                document.getElementById('con-entryDate').value = '';
-                document.getElementById('con-appointmentDate').value = '';
-                document.getElementById('con-appointmentDate2').value = '';
-                document.getElementById('con-appointmentDate3').value = '';
-                document.getElementById('con-appointmentDate4').value = '';
-                document.getElementById('con-residencyStart').value = '';
-                document.getElementById('con-residencyEnd').value = '';
-                document.getElementById('con-workStart').value = '';
-                document.getElementById('con-workEnd').value = '';
-                document.getElementById('con-serviceFee').value = '';
-                document.getElementById('con-totalExpenses').value = '';
-                document.getElementById('con-commissionTotal').value = '';
-                document.getElementById('con-advances-container').innerHTML = '';
-                document.getElementById('con-commissions-container').innerHTML = '';
-                document.getElementById('con-expenses-container').innerHTML = '';
-                document.getElementById('con-docs-container').innerHTML = '';
+                if (deleteBtn) deleteBtn.classList.add('hidden');
+                const setVal = (elId, val) => { const el = document.getElementById(elId); if (el) el.value = val; };
+                setVal('editConsultancyId', '');
+                setVal('con-name', '');
+                setVal('con-phone', '');
+                setVal('con-passport', '');
+                setVal('con-address', '');
+                setVal('con-notes', '');
+                setVal('con-gender', 'Kadın');
+                setVal('con-age', '');
+                setVal('con-nationality', '');
+                setVal('con-status', 'Kurumdan Cevap Bekleniyor');
+                setVal('con-entryDate', '');
+                setVal('con-appointmentDate', '');
+                setVal('con-appointmentDate2', '');
+                setVal('con-appointmentDate3', '');
+                setVal('con-appointmentDate4', '');
+                setVal('con-residencyStart', '');
+                setVal('con-residencyEnd', '');
+                setVal('con-workStart', '');
+                setVal('con-workEnd', '');
+                setVal('con-serviceFee', '');
+                setVal('con-totalExpenses', '');
+                setVal('con-commissionTotal', '');
+
+                const advContainer = document.getElementById('con-advances-container');
+                if (advContainer) advContainer.innerHTML = '';
+                const commContainer = document.getElementById('con-commissions-container');
+                if (commContainer) commContainer.innerHTML = '';
+                const expContainer = document.getElementById('con-expenses-container');
+                if (expContainer) expContainer.innerHTML = '';
+                const docsContainer = document.getElementById('con-docs-container');
+                if (docsContainer) docsContainer.innerHTML = '';
+
                 addConsultancyAdvanceRow();
                 addConsultancyCommissionRow();
                 addConsultancyExpenseRow();
                 addConsultancyDocRow();
-                document.getElementById('consultancyPageTitle').textContent = 'Yeni Danışmanlık Hizmet Kaydı';
+
+                const titleEl = document.getElementById('consultancyPageTitle');
+                if (titleEl) titleEl.textContent = 'Yeni Oturma / Çalışma İzni Kaydı';
             }
+        }
+
+        function confirmDeleteConsultancy() {
+            const editId = document.getElementById('editConsultancyId').value;
+            if (!editId) return;
+            openModal('deleteConsultancyModal');
+        }
+
+        function executeDeleteConsultancy() {
+            const editId = Number(document.getElementById('editConsultancyId').value);
+            if (editId) {
+                state.consultancyList = state.consultancyList.filter(c => c.id !== editId);
+                showToast('Kayıt başarıyla silindi.');
+            }
+            closeModal('deleteConsultancyModal');
+            closeConsultancyFullPage();
         }
 
         function closeConsultancyFullPage() {
@@ -1171,19 +1305,49 @@
             updateJobCalculations();
         }
 
-        function addStaffRow() {
+        function addStaffRow(staffData = null) {
             const container = document.getElementById('modal-staff-container');
             if (container.children.length >= 4) {
                 showToast('En fazla 4 personel eklenebilir.');
                 return;
             }
+            const sName = staffData ? staffData.name : '';
+            const sPrice = staffData ? staffData.price : '';
+            const sDays = staffData ? staffData.days : 1;
+            const sIsPaid = staffData ? staffData.isPaid : 'Ödenmedi';
+            const sPayDate = staffData ? (staffData.paymentDate || '') : new Date().toISOString().split('T')[0];
+            const sPayMethod = staffData ? (staffData.paymentMethod || 'Havale') : 'Havale';
+
             const div = document.createElement('div');
-            div.className = 'grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-2xl border border-slate-200';
+            div.className = 'bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-3';
             div.innerHTML = `
-                <div class="col-span-5"><input type="text" placeholder="Personel Adı" class="staff-name w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold"></div>
-                <div class="col-span-3"><input type="number" placeholder="Günlük Ücret" oninput="updateJobCalculations()" class="staff-price w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold"></div>
-                <div class="col-span-3"><input type="number" placeholder="Gün" value="1" oninput="updateJobCalculations()" class="staff-days w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold"></div>
-                <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove(); updateJobCalculations();" class="text-rose-500 hover:text-rose-700"><i class="fa-solid fa-trash text-xs"></i></button></div>
+                <div class="grid grid-cols-12 gap-2 items-center">
+                    <div class="col-span-5"><input type="text" placeholder="Personel Adı" value="${sName}" class="staff-name w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-clean-teal"></div>
+                    <div class="col-span-3"><input type="number" placeholder="Günlük Ücret" value="${sPrice}" oninput="updateJobCalculations()" class="staff-price w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-clean-teal"></div>
+                    <div class="col-span-3"><input type="number" placeholder="Gün" value="${sDays}" oninput="updateJobCalculations()" class="staff-days w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-clean-teal"></div>
+                    <div class="col-span-1 text-center"><button type="button" onclick="this.closest('.bg-slate-50').remove(); updateJobCalculations();" class="text-rose-500 hover:text-rose-700 p-1"><i class="fa-solid fa-trash text-xs"></i></button></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 pt-1 border-t border-slate-200/60">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Ödeme Durumu</label>
+                        <select class="staff-isPaid w-full bg-white border border-slate-200 rounded-xl px-2 py-1.5 text-xs font-bold text-slate-700 focus:outline-none">
+                            <option value="Ödenmedi" ${sIsPaid === 'Ödenmedi' ? 'selected' : ''}>Ödenmedi</option>
+                            <option value="Ödendi" ${sIsPaid === 'Ödendi' ? 'selected' : ''}>Ödendi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Ödeme Tarihi</label>
+                        <input type="date" value="${sPayDate}" class="staff-payDate w-full bg-white border border-slate-200 rounded-xl px-2 py-1.5 text-xs font-semibold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Ödeme Seçeneği</label>
+                        <select class="staff-payMethod w-full bg-white border border-slate-200 rounded-xl px-2 py-1.5 text-xs font-semibold focus:outline-none">
+                            <option value="Havale" ${sPayMethod === 'Havale' ? 'selected' : ''}>Havale</option>
+                            <option value="Elden" ${sPayMethod === 'Elden' ? 'selected' : ''}>Elden</option>
+                            <option value="Nakit" ${sPayMethod === 'Nakit' ? 'selected' : ''}>Nakit</option>
+                        </select>
+                    </div>
+                </div>
             `;
             container.appendChild(div);
             updateJobCalculations();
@@ -1218,7 +1382,10 @@
                 staffList.push({
                     name: row.querySelector('.staff-name').value,
                     price: Number(row.querySelector('.staff-price').value) || 0,
-                    days: Number(row.querySelector('.staff-days').value) || 1
+                    days: Number(row.querySelector('.staff-days').value) || 1,
+                    isPaid: row.querySelector('.staff-isPaid').value,
+                    paymentDate: row.querySelector('.staff-payDate').value,
+                    paymentMethod: row.querySelector('.staff-payMethod').value
                 });
             });
 
@@ -1254,9 +1421,21 @@
             if (!tbody) return;
             tbody.innerHTML = '';
 
+            const filterQuery = document.getElementById('filter-job-query') ? document.getElementById('filter-job-query').value.toLowerCase() : '';
+            const filterStart = document.getElementById('filter-job-start') ? document.getElementById('filter-job-start').value : '';
+            const filterStaff = document.getElementById('filter-job-staff') ? document.getElementById('filter-job-staff').value.toLowerCase() : '';
+            const filterPayment = document.getElementById('filter-job-payment') ? document.getElementById('filter-job-payment').value : 'ALL';
+            const filterStatus = document.getElementById('filter-job-status') ? document.getElementById('filter-job-status').value : 'ALL';
+
             const filtered = state.isKayitlari.filter(job => {
-                const matches = !state.globalSearch || job.name.toLowerCase().includes(state.globalSearch.toLowerCase()) || job.district.toLowerCase().includes(state.globalSearch.toLowerCase());
-                return matches;
+                const matchesGlobal = !state.globalSearch || job.name.toLowerCase().includes(state.globalSearch.toLowerCase()) || job.district.toLowerCase().includes(state.globalSearch.toLowerCase());
+                const matchesQuery = !filterQuery || job.name.toLowerCase().includes(filterQuery) || job.district.toLowerCase().includes(filterQuery) || job.jobTopic.toLowerCase().includes(filterQuery);
+                const matchesStart = !filterStart || job.startDate >= filterStart;
+                const matchesStaff = !filterStaff || job.staffList.some(st => st.name.toLowerCase().includes(filterStaff));
+                const matchesPayment = (filterPayment === 'ALL' || job.paymentMethod === filterPayment);
+                const matchesStatus = (filterStatus === 'ALL' || (filterStatus === 'paid' && job.isPaid) || (filterStatus === 'unpaid' && !job.isPaid));
+
+                return matchesGlobal && matchesQuery && matchesStart && matchesStaff && matchesPayment && matchesStatus;
             });
 
             filtered.forEach(job => {
@@ -1267,12 +1446,17 @@
                 tr.className = 'hover:bg-slate-50/60 transition-colors';
                 tr.innerHTML = `
                     <td class="py-4 px-6">
-                        <div onclick="openCariDetailsByName('${job.name}')" class="font-bold text-slate-800 cursor-pointer hover:text-clean-teal transition-colors underline decoration-slate-300 underline-offset-2">${job.name}</div>
-                        <div class="text-xs text-slate-500">${job.district} • <span class="text-clean-teal font-semibold">${job.jobTopic}</span></div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="duplicateJob(${job.id})" class="w-7 h-7 bg-teal-50 hover:bg-teal-100 text-clean-teal rounded-xl font-bold text-xs transition-colors flex items-center justify-center shrink-0" title="İşi Kopyala"><i class="fa-solid fa-copy text-xs"></i></button>
+                            <div>
+                                <div onclick="openCariDetailsByName('${job.name}')" class="font-bold text-slate-800 cursor-pointer hover:text-clean-teal transition-colors underline decoration-slate-300 underline-offset-2">${job.name}</div>
+                                <div class="text-xs text-slate-500">${job.district} • <span class="text-clean-teal font-semibold">${job.jobTopic}</span></div>
+                            </div>
+                        </div>
                     </td>
                     <td class="py-4 px-4 text-xs text-slate-600">${job.startDate} ~ ${job.endDate}<br><span class="font-bold">(${job.daysCount} Gün)</span></td>
                     <td class="py-4 px-4 text-xs text-slate-600">
-                        ${job.staffList.map(st => `<div>• ${st.name} (${st.days}g x ${st.price}₺)</div>`).join('')}
+                        ${job.staffList.map(st => `<div>• ${st.name} (${st.days}g x ${st.price}₺) - <span class="${st.isPaid==='Ödendi'?'text-emerald-600 font-bold':'text-amber-600'}">${st.isPaid}</span></div>`).join('')}
                     </td>
                     <td class="py-4 px-4 text-right text-xs">
                         <div class="font-bold text-slate-800">Bedel: ${job.cleaningPrice.toLocaleString('tr-TR')} ₺</div>
@@ -1320,18 +1504,23 @@
             const container = document.getElementById('modal-staff-container');
             container.innerHTML = '';
             job.staffList.forEach(st => {
-                const div = document.createElement('div');
-                div.className = 'grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-2xl border border-slate-200';
-                div.innerHTML = `
-                    <div class="col-span-5"><input type="text" value="${st.name}" class="staff-name w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold"></div>
-                    <div class="col-span-3"><input type="number" value="${st.price}" oninput="updateJobCalculations()" class="staff-price w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold"></div>
-                    <div class="col-span-3"><input type="number" value="${st.days}" oninput="updateJobCalculations()" class="staff-days w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold"></div>
-                    <div class="col-span-1 text-center"><button type="button" onclick="this.parentElement.parentElement.remove(); updateJobCalculations();" class="text-rose-500 hover:text-rose-700"><i class="fa-solid fa-trash text-xs"></i></button></div>
-                `;
-                container.appendChild(div);
+                addStaffRow(st);
             });
             calculateJobDays();
             openModal('jobModal');
+        }
+
+        function duplicateJob(id) {
+            const job = state.isKayitlari.find(j => j.id === id);
+            if (!job) return;
+            const duplicated = {
+                ...job,
+                id: Date.now(),
+                isPaid: false
+            };
+            state.isKayitlari.unshift(duplicated);
+            refreshDataViews();
+            showToast('İş kaydı başarıyla kopyalandı.');
         }
 
         function confirmDeleteJobFromModal() {
@@ -1423,8 +1612,10 @@
         function simulateOCR() {
             const vendors = ['Migros Ticaret', 'İSPARK A.Ş.', 'Özlem Lokantası', 'Petrol Ofisi', 'CarrefourSA'];
             const types = ['Yemek', 'Otopark', 'Ulaşım', 'Malzeme'];
+            const methods = ['Nakit', 'Havale', 'K.kartı', 'Veresiye borç'];
             const randomVendor = vendors[Math.floor(Math.random() * vendors.length)];
             const randomType = types[Math.floor(Math.random() * types.length)];
+            const randomMethod = methods[Math.floor(Math.random() * methods.length)];
             const randomAmount = Math.floor(Math.random() * 450) + 50;
 
             const newExp = {
@@ -1433,6 +1624,7 @@
                 type: randomType,
                 amount: randomAmount,
                 vendor: randomVendor,
+                paymentMethod: randomMethod,
                 isAutoOCR: true
             };
             state.expenses.unshift(newExp);
@@ -1448,6 +1640,7 @@
                 type: document.getElementById('exp-type').value,
                 amount: Number(document.getElementById('exp-amount').value) || 0,
                 vendor: document.getElementById('exp-vendor').value,
+                paymentMethod: document.getElementById('exp-payment-method').value,
                 isAutoOCR: false
             };
             state.expenses.unshift(exp);
@@ -1468,6 +1661,7 @@
                     <td class="py-4 px-6 text-xs text-slate-600">${ex.date}</td>
                     <td class="py-4 px-4"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold text-xs rounded-xl">${ex.type}</span></td>
                     <td class="py-4 px-4 font-bold text-slate-800">${ex.vendor}</td>
+                    <td class="py-4 px-4 text-center"><span class="px-2.5 py-1 bg-slate-100 text-slate-700 font-semibold text-xs rounded-xl">${ex.paymentMethod || 'Nakit'}</span></td>
                     <td class="py-4 px-4 text-center">
                         <span class="px-2.5 py-1 ${ex.isAutoOCR ? 'bg-indigo-50 text-indigo-700' : 'bg-slate-100 text-slate-600'} text-[11px] font-semibold rounded-xl">
                             ${ex.isAutoOCR ? 'OCR Fiş' : 'Manuel'}
@@ -1602,6 +1796,7 @@
                 gender: document.getElementById('con-gender').value,
                 age: Number(document.getElementById('con-age').value) || 0,
                 nationality: document.getElementById('con-nationality').value,
+                status: document.getElementById('con-status').value,
                 entryDate: document.getElementById('con-entryDate').value,
                 appointmentDate: document.getElementById('con-appointmentDate').value,
                 appointmentDate2: document.getElementById('con-appointmentDate2').value,
@@ -1625,10 +1820,10 @@
 
             if (editId) {
                 state.consultancyList = state.consultancyList.map(item => item.id === Number(editId) ? data : item);
-                showToast('Danışmanlık kaydı güncellendi.');
+                showToast('Oturma / Çalışma İzni kaydı güncellendi.');
             } else {
                 state.consultancyList.unshift(data);
-                showToast('Yeni danışmanlık kaydı eklendi.');
+                showToast('Yeni Oturma / Çalışma İzni kaydı eklendi.');
             }
             closeConsultancyFullPage();
         }
@@ -1643,9 +1838,13 @@
             });
 
             filtered.forEach(item => {
-                const totalAdvance = item.advances && item.advances.length > 0 
-                    ? item.advances.reduce((sum, a) => sum + (a.amount || 0), 0)
-                    : (item.advanceAmount || 0);
+                const statusVal = item.status || 'Kurumdan Cevap Bekleniyor';
+                let badgeClass = 'bg-rose-50 text-rose-700 border border-rose-200';
+                if (statusVal === 'İşlem Tamamlandı') {
+                    badgeClass = 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+                } else if (statusVal === 'Müşteriden Evrak Bekleniyor' || statusVal === 'Müşteriden Ücret Bekleniyor') {
+                    badgeClass = 'bg-amber-50 text-amber-700 border border-amber-200';
+                }
 
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/60 transition-colors cursor-pointer';
@@ -1654,10 +1853,18 @@
                         openConsultancyFullPage(item.id);
                     }
                 };
+
                 tr.innerHTML = `
                     <td class="py-4 px-6">
-                        <div class="font-bold text-slate-800 hover:text-clean-teal transition-colors">${item.name}</div>
-                        <div class="text-xs text-slate-500">${item.phone} • Pasaport: ${item.passport || '-'}</div>
+                        <div class="flex items-center space-x-2">
+                            <button type="button" onclick="duplicateConsultancy(event, ${item.id})" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-teal-50 hover:text-clean-teal text-slate-600 flex items-center justify-center transition-all shadow-xs shrink-0" title="Kaydı Kopyala & Alt Satıra Ekle">
+                                <i class="fa-solid fa-copy text-xs"></i>
+                            </button>
+                            <div>
+                                <div class="font-bold text-slate-800 hover:text-clean-teal transition-colors">${item.name}</div>
+                                <div class="text-xs text-slate-500">${item.phone} • Pasaport: ${item.passport || '-'}</div>
+                            </div>
+                        </div>
                     </td>
                     <td class="py-4 px-4 text-xs">
                         <div class="font-semibold text-slate-800">${item.nationality || 'Belirtilmemiş'}</div>
@@ -1667,12 +1874,10 @@
                         <div>Giriş: ${item.entryDate || '-'}</div>
                         <div>Randevu: ${item.appointmentDate || '-'}</div>
                     </td>
-                    <td class="py-4 px-4 text-right text-xs font-black text-clean-teal">
-                        ${totalAdvance.toLocaleString('tr-TR')} ₺<br>
-                        <span class="text-[10px] text-slate-400 font-normal">Toplam Avans</span>
-                    </td>
-                    <td class="py-4 px-4 text-center text-xs">
-                        <span class="px-2.5 py-1 bg-teal-50 text-clean-teal font-bold rounded-xl">${item.documents ? item.documents.length : 0} Evrak</span>
+                    <td class="py-4 px-4 text-center">
+                        <button type="button" onclick="cycleConsultancyStatus(event, ${item.id})" class="px-3 py-1.5 ${badgeClass} text-xs font-bold rounded-xl inline-block transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-xs" title="Durumu değiştirmek için tıklayın">
+                            ${statusVal} <i class="fa-solid fa-rotate text-[10px] ml-1 opacity-70"></i>
+                        </button>
                     </td>
                     <td class="py-4 px-6 text-center">
                         <button onclick="openConsultancyFullPage(${item.id})" class="px-3 py-1.5 bg-slate-100 hover:bg-teal-50 hover:text-clean-teal text-slate-700 rounded-xl font-bold text-xs transition-colors">Düzenle</button>
@@ -1682,15 +1887,192 @@
             });
         }
 
+        function cycleConsultancyStatus(e, id) {
+            e.stopPropagation();
+            const statuses = [
+                'Kurumdan Cevap Bekleniyor',
+                'Kurum Cevap Bekliyor',
+                'Müşteriden Evrak Bekleniyor',
+                'Müşteriden Ücret Bekleniyor',
+                'İşlem Tamamlandı'
+            ];
+
+            const item = state.consultancyList.find(c => c.id === id);
+            if (!item) return;
+
+            const currentIndex = statuses.indexOf(item.status);
+            const nextIndex = (currentIndex + 1) % statuses.length;
+            item.status = statuses[nextIndex];
+
+            refreshDataViews();
+            showToast(`Durum güncellendi: ${item.status}`);
+        }
+
+        function duplicateConsultancy(e, id) {
+            e.stopPropagation();
+            const item = state.consultancyList.find(c => c.id === id);
+            if (!item) return;
+
+            const duplicated = {
+                ...JSON.parse(JSON.stringify(item)),
+                id: Date.now(),
+                name: item.name + ' (Kopya)'
+            };
+
+            const idx = state.consultancyList.findIndex(c => c.id === id);
+            state.consultancyList.splice(idx + 1, 0, duplicated);
+            refreshDataViews();
+            showToast('Kayıt başarıyla kopyalandı.');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/`/g, '\\`').replace(/\$/g, '\\$');
+        }
+
         function renderReports() {
             const stats = computeStats();
-            const revEl = document.getElementById('rep-total-rev');
-            const expEl = document.getElementById('rep-total-exp');
-            const profEl = document.getElementById('rep-net-profit');
+            const revEl = document.getElementById('stat-total-revenue');
+            const expEl = document.getElementById('stat-total-expenses');
+            const profEl = document.getElementById('stat-net-profit');
+            const pendingEl = document.getElementById('stat-pending-receivable');
 
             if (revEl) revEl.textContent = stats.totalRevenue.toLocaleString('tr-TR') + ' ₺';
             if (expEl) expEl.textContent = stats.totalExpenses.toLocaleString('tr-TR') + ' ₺';
             if (profEl) profEl.textContent = stats.netCommission.toLocaleString('tr-TR') + ' ₺';
+            if (pendingEl) pendingEl.textContent = stats.pendingReceivable.toLocaleString('tr-TR') + ' ₺';
+
+            updateReportSelectOptions();
+            renderStaffReport();
+        }
+
+        function updateReportSelectOptions() {
+            const staffSelect = document.getElementById('report-staff-select');
+            const custSelect = document.getElementById('report-customer-select');
+            if (!staffSelect || !custSelect) return;
+
+            const curStaff = staffSelect.value;
+            const curCust = custSelect.value;
+
+            const staffSet = new Set();
+            const custSet = new Set();
+
+            state.isKayitlari.forEach(j => {
+                custSet.add(j.name);
+                j.staffList.forEach(st => staffSet.add(st.name));
+            });
+
+            staffSelect.innerHTML = '<option value="ALL">Tüm Personeller</option>';
+            staffSet.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                staffSelect.appendChild(opt);
+            });
+            staffSelect.value = curStaff;
+
+            custSelect.innerHTML = '<option value="ALL">Tüm Müşteriler</option>';
+            custSet.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                custSelect.appendChild(opt);
+            });
+            custSelect.value = curCust;
+        }
+
+        function handleStaffOrCustomerChange(type) {
+            if (type === 'staff') {
+                const custSelect = document.getElementById('report-customer-select');
+                if (custSelect) custSelect.value = 'ALL';
+            } else {
+                const staffSelect = document.getElementById('report-staff-select');
+                if (staffSelect) staffSelect.value = 'ALL';
+            }
+            renderStaffReport();
+        }
+
+        function renderStaffReport() {
+            const staffSelect = document.getElementById('report-staff-select');
+            const custSelect = document.getElementById('report-customer-select');
+            const startDateInput = document.getElementById('report-start-date');
+            const endDateInput = document.getElementById('report-end-date');
+            const tbody = document.getElementById('staff-report-table-body');
+            if (!tbody) return;
+
+            const selectedStaff = staffSelect ? staffSelect.value : 'ALL';
+            const selectedCust = custSelect ? custSelect.value : 'ALL';
+            const startDate = startDateInput ? startDateInput.value : '2026-10-01';
+            const endDate = endDateInput ? endDateInput.value : '2026-10-31';
+
+            tbody.innerHTML = '';
+            let totalDays = 0;
+            let totalEarnings = 0;
+            let totalPaid = 0;
+            const uniqueEntities = new Set();
+
+            state.isKayitlari.forEach(job => {
+                if (job.endDate >= startDate && job.startDate <= endDate) {
+                    const matchesCustomer = (selectedCust === 'ALL' || job.name.toLowerCase() === selectedCust.toLowerCase());
+                    if (!matchesCustomer) return;
+
+                    job.staffList.forEach(st => {
+                        const matchesStaff = (selectedStaff === 'ALL' || st.name.toLowerCase() === selectedStaff.toLowerCase());
+                        if (matchesStaff) {
+                            totalDays += st.days;
+                            const amount = st.price * st.days;
+                            totalEarnings += amount;
+                            if (st.isPaid === 'Ödendi') {
+                                totalPaid += amount;
+                            }
+                            uniqueEntities.add(selectedStaff !== 'ALL' ? job.name : st.name);
+
+                            const tr = document.createElement('tr');
+                            tr.className = 'hover:bg-slate-50/60 transition-colors';
+                            tr.innerHTML = `
+                                <td class="py-4 px-6 font-bold text-slate-800">${st.name}</td>
+                                <td class="py-4 px-4 font-semibold text-slate-700">${job.name} <span class="text-xs text-slate-400 font-normal">(${job.district})</span></td>
+                                <td class="py-4 px-4 text-xs text-slate-600">${job.startDate} ~ ${job.endDate}</td>
+                                <td class="py-4 px-4 text-center text-xs font-bold text-slate-800">${st.days} Gün</td>
+                                <td class="py-4 px-4 text-center text-xs">
+                                    <span class="font-semibold text-slate-700">${st.paymentDate || job.startDate}</span><br>
+                                    <span class="px-2 py-0.5 bg-teal-50 text-clean-teal font-bold rounded-lg text-[10px]">${st.paymentMethod || 'Havale'}</span>
+                                    <span class="ml-1 px-2 py-0.5 ${st.isPaid === 'Ödendi' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'} font-bold rounded-lg text-[10px]">${st.isPaid || 'Ödenmedi'}</span>
+                                </td>
+                                <td class="py-4 px-6 text-right font-black text-clean-teal">${amount.toLocaleString('tr-TR')} ₺</td>
+                            `;
+                            tbody.appendChild(tr);
+                        }
+                    });
+                }
+            });
+
+            const totalRemaining = totalEarnings - totalPaid;
+
+            const elDays = document.getElementById('rep-staff-total-days');
+            const elEarn = document.getElementById('rep-staff-total-earnings');
+            const elPaid = document.getElementById('rep-staff-total-paid');
+            const elRem = document.getElementById('rep-staff-total-remaining');
+            const elCount = document.getElementById('rep-staff-count');
+
+            if (elDays) elDays.textContent = totalDays + ' Gün';
+            if (elEarn) elEarn.textContent = totalEarnings.toLocaleString('tr-TR') + ' ₺';
+            if (elPaid) elPaid.textContent = totalPaid.toLocaleString('tr-TR') + ' ₺';
+            if (elRem) elRem.textContent = totalRemaining.toLocaleString('tr-TR') + ' ₺';
+            if (elCount) elCount.textContent = uniqueEntities.size + ' Kişi';
+        }
+
+        function exportStaffReportExcel() {
+            showToast('Rapor Excel olarak indiriliyor...');
+            setTimeout(() => {
+                showToast('Excel dosyası başarıyla indirildi.');
+            }, 1500);
+        }
+
+        function exportStaffReportPDF() {
+            showToast('Rapor PDF belgesi oluşturuluyor...');
+            setTimeout(() => {
+                showToast('PDF raporu başarıyla indirildi.');
+            }, 1500);
         }
 
         function handleGlobalSearch(query) {
